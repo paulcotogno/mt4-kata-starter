@@ -34,26 +34,23 @@ const negate = (a: number): number => {
   return a * -1;
 }
 
-const checkTypeItem = (item: string, stack: number[]): number => {
+const stackAccumulator = (item: string, stack: number[]): number => {
   if (!isNaN(Number(item))) {
     if (Number(item) < 0) throw new TypeError("Bad value");
-
     return Number(item);
-  } else if (item === 'NEGATE') {
+  }
+
+  if (item === 'NEGATE') {
     let a = stack.pop();
 
-    const result = negate(a);
-
-    return result;
-  } else {
-    let operand = item,
-      b = stack.pop(),
-      a = stack.pop();
-
-    const result = calculate(a, b, operand);
-
-    return result;
+    return negate(a);
   }
+
+  let operand = item,
+    b = stack.pop(),
+    a = stack.pop();
+
+  return calculate(a, b, operand);
 }
 
 const result = (stack: number[]): number => {
@@ -68,9 +65,9 @@ export const runRPN = (expr: string): number => {
   let stack: number[] = [];
 
   for (let item of exprList) {
-    const stackAccumulator = checkTypeItem(item, stack);
+    const accumulator = stackAccumulator(item, stack);
 
-    stack.push(stackAccumulator);
+    stack.push(accumulator);
   }
 
   return result(stack);
