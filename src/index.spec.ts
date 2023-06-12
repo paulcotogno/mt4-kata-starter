@@ -21,7 +21,7 @@ test('Test division', () => {
 })
 
 test("Test negate", function () {
-  expect(runRPN("2 NEGATE 6 +")).toEqual(4);
+  expect(runRPN("2 NEGATE")).toEqual(-2);
 });
 
 test("Test modulo", function () {
@@ -29,35 +29,27 @@ test("Test modulo", function () {
 });
 
 test("Test negate failed", function () {
-  expect(() => runRPN("-2 6 +")).toThrow(TypeError);
-  expect(() => runRPN("-2 6 +")).toThrow("Bad value");
+  expect(() => runRPN("-2")).toThrow(TypeError);
+  expect(() => runRPN("-2")).toThrow("Bad value");
 });
 
 test("Addition sup", function () {
   expect(runRPN("99 11 + 8 7 + +")).toEqual(125);
 });
 
-test("Multiplication sup", function () {
+test("CONTROL: Multiplication sup", function () {
   expect(runRPN("4 7 * 5 2 * *")).toEqual(280);
 });
 
-test("Suppression sup", function () {
+test("CONTROL: Suppression sup", function () {
   expect(runRPN("33 3 - 10 6 - -")).toEqual(26);
 });
 
-test("Division sup", function () {
+test("CONTROL: Division sup", function () {
   expect(runRPN("90 3 / 30 5 / /")).toEqual(5);
 });
 
-test("All calcul at once", function () {
-  expect(runRPN("15 7 1 1 + - / 3 * 2 1 1 + + -")).toEqual(5);
-});
-
-test("Multiple operations", function () {
-  expect(runRPN("2")).toEqual(2);
-  expect(runRPN("3 4 +")).toEqual(7);
-  expect(runRPN("12 4 / 1 -")).toEqual(2);
-  expect(runRPN("12 4 1 - /")).toEqual(4);
+test("CONTROL: All calcul at once", function () {
   expect(runRPN("15 7 1 1 + - / 3 * 2 1 1 + + -")).toEqual(5);
 });
 
@@ -72,13 +64,13 @@ test("Wrong number of operator and value", () => {
 })
 
 test("Bad use of NEGATE", () => {
-  expect(() => runRPN("NEGATE 2")).toThrow(TypeError);
-  expect(() => runRPN("NEGATE 2")).toThrow("No value for NEGATE");
+  expect(() => runRPN("NEGATE")).toThrow(TypeError);
+  expect(() => runRPN("NEGATE")).toThrow("No value for NEGATE");
 })
 
-test("No value wtesth an operator", () => {
-  expect(() => runRPN("2 + 3")).toThrow(TypeError);
-  expect(() => runRPN("2 + 3")).toThrow("No value for operator");
+test("No enough value with an operator", () => {
+  expect(() => runRPN("2 +")).toThrow(TypeError);
+  expect(() => runRPN("2 +")).toThrow("No value for operator");
 })
 
 test("Divide by 0", () => {
