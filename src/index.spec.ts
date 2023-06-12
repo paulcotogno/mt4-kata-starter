@@ -80,5 +80,5 @@ test("Divide by 0", () => {
 
 test("Modulo by 0", () => {
   expect(() => runRPN("3 0 MOD")).toThrow(TypeError);
-  expect(() => runRPN("3 0 MOD")).toThrow("Cannot MOD by 0");
+  expect(() => runRPN("3 0 MOD")).toThrow("Cannot divide by 0");
 })

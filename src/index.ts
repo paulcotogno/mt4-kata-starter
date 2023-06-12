@@ -1,26 +1,31 @@
-enum Operators { Product = "*", Fraction = "/", Sum = "+", Difference = "-", Modulo = "MOD", Negative = "NEGATE" };
+type Operator = "*" | "/" | "+" | "-" | "MOD";
 
-type Operator = Operators;
+type allOperators = {
+  [key in Operator]: (a: number, b: number) => number;
+};
+
+const operatorCalcul: allOperators = {
+  '+': (a, b) => a + b,
+  '-': (a, b) => a - b,
+  '*': (a, b) => a * b,
+  '/': (a, b) => a / b,
+  'MOD': (a, b) => a % b,
+}
+
+const operationErrorHandler = (b: number, operator: Operator | string) => {
+  if (!operatorCalcul[operator]) throw new TypeError("Bad operator");
+
+  if (b === 0 && (operator === 'MOD' || operator === '/')) {
+    throw new TypeError("Cannot divide by 0");
+  }
+}
 
 const calculate = (a: number, b: number, operator: Operator | string): number => {
-  if (isNaN(a) || isNaN(b)) throw new TypeError("No value for operator")
+  if (isNaN(a) || isNaN(b)) throw new TypeError("No value for operator");
 
-  switch (operator) {
-    case '+':
-      return a + b;
-    case '-':
-      return a - b;
-    case '*':
-      return a * b;
-    case '/':
-      if (b === 0) throw new TypeError("Cannot divide by 0");
-      return a / b;
-    case 'MOD':
-      if (b === 0) throw new TypeError("Cannot MOD by 0");
-      return a % b;
-    default:
-      throw new TypeError("Bad operator");
-  }
+  operationErrorHandler(b, operator);
+
+  return operatorCalcul[operator](a, b);
 }
 
 const negate = (a: number): number => {
