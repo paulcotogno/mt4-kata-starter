@@ -1,10 +1,10 @@
 type Operator = "*" | "/" | "+" | "-" | "MOD";
 
-type allOperators = {
+type AllOperators = {
   [key in Operator]: (a: number, b: number) => number;
 };
 
-const operatorCalcul: allOperators = {
+const operatorCalcul: AllOperators = {
   '+': (a, b) => a + b,
   '-': (a, b) => a - b,
   '*': (a, b) => a * b,
@@ -21,8 +21,6 @@ const operationErrorHandler = (b: number, operator: Operator | string) => {
 }
 
 const calculate = (a: number, b: number, operator: Operator | string): number => {
-  if (isNaN(a) || isNaN(b)) throw new TypeError("No value for operator");
-
   operationErrorHandler(b, operator);
 
   return operatorCalcul[operator](a, b);
@@ -34,12 +32,14 @@ const negate = (a: number): number => {
   return a * -1;
 }
 
+//changer nom
 const stackAccumulator = (item: string, stack: number[]): number => {
   if (!isNaN(Number(item))) {
     if (Number(item) < 0) throw new TypeError("Bad value");
     return Number(item);
   }
 
+  //le handle pareil que operateur binaire
   if (item === 'NEGATE') {
     let a = stack.pop();
 
@@ -50,13 +50,9 @@ const stackAccumulator = (item: string, stack: number[]): number => {
     b = stack.pop(),
     a = stack.pop();
 
+  if (isNaN(a) || isNaN(b)) throw new TypeError("No value for operator");
+
   return calculate(a, b, operand);
-}
-
-const result = (stack: number[]): number => {
-  if (stack.length > 1) throw new TypeError("Stack too long");
-
-  return stack.pop();
 }
 
 export const runRPN = (expr: string): number => {
@@ -64,11 +60,15 @@ export const runRPN = (expr: string): number => {
 
   let stack: number[] = [];
 
+  //recursif
   for (let item of exprList) {
     const accumulator = stackAccumulator(item, stack);
 
     stack.push(accumulator);
   }
 
-  return result(stack);
+  //erreur pas comprehensible par l'utilisateur
+  if (stack.length > 1) throw new TypeError("Stack too long");
+
+  return stack.pop();
 }
