@@ -1,10 +1,15 @@
 // @ts-ignore see https://github.com/jest-community/jest-extended#setup
 import * as matchers from "jest-extended";
 import fc from "fast-check";
+import { main } from ".";
 
 expect.extend(matchers);
 
-test("A simple test (Jest)", () => {
+test('call the main', () => {
+  expect(main()).toEqual('coucou');
+})
+
+/* test("A simple test (Jest)", () => {
   expect(1 + 1).toEqual(2);
 });
 
@@ -30,3 +35,4 @@ test("Property-based testing (fast-check)", () => {
     })
   );
 });
+ */
