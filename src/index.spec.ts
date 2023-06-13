@@ -33,7 +33,6 @@ test("Test negate failed", function () {
   expect(() => runRPN("-2")).toThrow("Bad value");
 });
 
-//valeurs plus simple
 test("Addition sup", function () {
   expect(runRPN("1 2 + 2 1 + +")).toEqual(6);
 });
@@ -59,7 +58,7 @@ test("Bad operator", () => {
 })
 
 test("Wrong number of operator and value", () => {
-  expect(() => runRPN('2 3 4 +')).toThrow("Stack too long");
+  expect(() => runRPN('2 3 4 +')).toThrow("Too many numbers for the number of operators");
 })
 
 test("Bad use of NEGATE", () => {
@@ -67,7 +66,7 @@ test("Bad use of NEGATE", () => {
 })
 
 test("No enough value with an operator", () => {
-  expect(() => runRPN("2 +")).toThrow("No value for operator");
+  expect(() => runRPN("2 +")).toThrow("Not enough numbers for the number of operators");
 })
 
 test("Divide by 0", () => {
