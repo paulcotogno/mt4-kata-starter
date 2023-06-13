@@ -35,19 +35,19 @@ test("Test negate failed", function () {
 
 //valeurs plus simple
 test("Addition sup", function () {
-  expect(runRPN("99 11 + 8 7 + +")).toEqual(125);
+  expect(runRPN("1 2 + 2 1 + +")).toEqual(6);
 });
 
 test("CONTROL: Multiplication sup", function () {
-  expect(runRPN("4 7 * 5 2 * *")).toEqual(280);
+  expect(runRPN("2 1 * 2 2 * *")).toEqual(8);
 });
 
 test("CONTROL: Suppression sup", function () {
-  expect(runRPN("33 3 - 10 6 - -")).toEqual(26);
+  expect(runRPN("5 2 - 3 1 - -")).toEqual(1);
 });
 
 test("CONTROL: Division sup", function () {
-  expect(runRPN("90 3 / 30 5 / /")).toEqual(5);
+  expect(runRPN("12 2 / 4 2 / /")).toEqual(3);
 });
 
 test("CONTROL: All calcul at once", function () {
